@@ -3,8 +3,11 @@
 const typeDefs = `
 
 type Query {
-  campaign(name: String): [Campaign],
-  statistics(userId: Int): [Statistics],
+  campaign(id: Int): Campaign,
+  campaigns: [Campaign],
+  campaignStatistics(campaignId: Int): [CampaignStatistics],
+  usersStatistics(userId: Int): [UserStatistics],
+  user(userId: Int): User
 }
 
 type Campaign {
@@ -12,9 +15,22 @@ type Campaign {
   id: Int
 }
 
-type Statistics {
+type CampaignStatistics {
   campaign: Campaign,
   steps: Int,
+  goal:Int,
+  percentageCompleted: Int,
+}
+
+type UserStatistics {
+  totalSteps: Int,
+  numberOfCampaigns:Int,
+}
+
+type User {
+  name: String,
+  id: Int,
+  Campaigns: [Campaign],
 }
 
 `;

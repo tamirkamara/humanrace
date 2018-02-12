@@ -1,9 +1,12 @@
-const { campaignQuery, statsQuery } = require('./queries/resolversRedirect.js');
+const { campaignQuery, campaignStatisticsQuery, usersQuery, usersStatisticsQuery } = require('./queries/resolversRedirect.js');
 
 const resolvers = {
   Query: {
     campaign: campaignQuery,
-    statistics: statsQuery,
+    campaigns: campaignQuery,
+    campaignStatistics: campaignStatisticsQuery,
+    user: usersQuery,
+    usersStatistics: usersStatisticsQuery,
   },
 };
 
