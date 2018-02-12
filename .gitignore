@@ -1,4 +1,2 @@
 webapp/node_modules/*
 webapp/package-lock.json
-
-node_modules/

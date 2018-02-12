@@ -7,6 +7,9 @@ var validate = require('jsonschema').validate;
 var schema = require('./api/schema');
 var sevices = require('./services')
 
+const { graphQLSchema } = require('./apollo/schema');
+const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
+
 var app = express();
 var serverOptions = {};
 var port = 443;
@@ -22,6 +25,9 @@ https.createServer(serverOptions, app).listen(port, err => {
 
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+
+app.use('/graphql', bodyParser.json(), graphqlExpress({ schema: graphQLSchema }));
+app.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 
 app.get('/', (req, res) => {
 	return res.end(`Server is running!!!`);
