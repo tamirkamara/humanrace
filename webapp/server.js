@@ -6,8 +6,8 @@ var bodyParser = require('body-parser');
 var validate = require('jsonschema').validate;
 
 var schema = require('./api/schema');
-var sevices = require('./services')
-
+var sevices = require('./services');
+var sqlSchemes = require('./sqlSchemes');
 const { graphQLSchema } = require('./apollo/schema');
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 
@@ -22,7 +22,7 @@ const PORT = process.env.PORT || 4000;
 //serverOptions.key = fs.readFileSync('./cert/server.key');
 
 //https.createServer(serverOptions, app).listen(PORT, err => {
-    http.createServer(app).listen(PORT, err => {
+http.createServer(app).listen(PORT, err => {
     if (err) return console.error(err);
     console.info(`server is listening on port ${PORT}`);
 });
@@ -77,6 +77,21 @@ app.post('/userinfo', async (req, res) => {
     }else{
         console.error('No userId found in the request body.');
         return res.status(HttpStatus.BAD_REQUEST).json({ error: 'No userId found in the request body.'});
+    }
+});
+
+app.post('/initialregister', async (req, res) => {
+    try {
+    sqlSchemes.Users.create({
+        Name: req.body.Name,
+        Email1: req.body.Email1,
+        AuthSource: req.body.source
+    })
+    return res.send('OK');
+    }
+    catch(err) {
+        console.error('Error:' + err);
+        return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error.', err});
     }
 });
 
