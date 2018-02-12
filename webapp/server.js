@@ -15,8 +15,8 @@ var serverOptions = {};
 var port = 443;
 var users = {};
 
-serverOptions.cert = fs.readFileSync('./webapp/cert/server.crt');
-serverOptions.key = fs.readFileSync('./webapp/cert/server.key');
+serverOptions.cert = fs.readFileSync('./cert/server.crt');
+serverOptions.key = fs.readFileSync('./cert/server.key');
 
 https.createServer(serverOptions, app).listen(port, err => {
     if (err) return console.error(err);
