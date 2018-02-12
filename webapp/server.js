@@ -1,4 +1,5 @@
-var https = require('https');
+//var https = require('https');
+var http = require('http');
 var express = require('express');
 var fs = require('fs');
 var bodyParser = require('body-parser');
@@ -12,15 +13,18 @@ const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 
 var app = express();
 var serverOptions = {};
-var port = 443;
+//var port = 443;
 var users = {};
 
-serverOptions.cert = fs.readFileSync('./cert/server.crt');
-serverOptions.key = fs.readFileSync('./cert/server.key');
+const PORT = process.env.PORT || 4000;
 
-https.createServer(serverOptions, app).listen(port, err => {
+//serverOptions.cert = fs.readFileSync('./cert/server.crt');
+//serverOptions.key = fs.readFileSync('./cert/server.key');
+
+//https.createServer(serverOptions, app).listen(PORT, err => {
+    http.createServer(app).listen(PORT, err => {
     if (err) return console.error(err);
-    console.info(`server is listening on port ${port}`);
+    console.info(`server is listening on port ${PORT}`);
 });
 
 app.use(bodyParser.json()); // support json encoded bodies
