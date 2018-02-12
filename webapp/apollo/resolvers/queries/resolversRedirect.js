@@ -3,7 +3,7 @@
 const campaignQuery = (root, { id }) => {
   return new Promise((resolve, reject) => {
 if (id) {
-  resolve({'name': 'AA', 'id' : 3})
+  resolve({'name': 'Collect steps campaign', 'id' : 3})
 }
     resolve([{'name': 'Sunflower', 'id' : 1},
     {'name': 'HumanRace', 'id' : 2}]);
@@ -12,7 +12,7 @@ if (id) {
 
 const campaignStatisticsQuery = (root, { name }) => {
   return new Promise((resolve, reject) => {
-    resolve([{ 'steps' : 1 , 'goal' : 2 }]);
+    resolve([{ 'steps' : 1 , 'goal' : 2 , user: {'name' : 'aaa', 'id' : 2}}]);
 });
 };
 /*
@@ -32,7 +32,7 @@ const usersQuery = (root, { userId }) => {
 
 const usersStatisticsQuery = (root, { userId }) => {
   return new Promise((resolve, reject) => {
-    resolve([{'totalSteps' : 11}]);
+    resolve([{'userId' : userId ,'totalSteps' : 11}]);
 });
 };
 

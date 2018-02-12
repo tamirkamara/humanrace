@@ -23,6 +23,7 @@ type CampaignStatistics {
 }
 
 type UserStatistics {
+  user: User,
   totalSteps: Int,
   numberOfCampaigns:Int,
 }
