@@ -1,0 +1,13 @@
+{
+  "userinfo": {
+    "post": {
+      "id": "/UserinfoPost",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "code" : { "type" : "string" }
+      },
+      "required": ["userId", "code"]
+    }
+  }
+}
