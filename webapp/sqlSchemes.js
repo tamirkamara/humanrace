@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize(process.env["sqldatabase"], process.env["sqluser"], process.env["sqlpassword"], {
     host: process.env["sqlhost"],
-
+    dialect: 'mssql',
   pool: {
     max: 5,
     min: 0,

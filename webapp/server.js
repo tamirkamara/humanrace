@@ -82,11 +82,12 @@ app.post('/userinfo', async (req, res) => {
 
 app.post('/initialregister', async (req, res) => {
     try {
+    //TODO: add input validation
     sqlSchemes.Users.create({
         Name: req.body.Name,
         Email1: req.body.Email1,
-        AuthSource: req.body.source
-    })
+        AuthSource: req.body.Source
+        })
     return res.send('OK');
     }
     catch(err) {
