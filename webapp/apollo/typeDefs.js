@@ -43,11 +43,15 @@ type FinishRegisterResult {
 type UserInfo {
   userId: String,
   name: String,
-  phone: String,
-  email: String, 
-  yearOfBirth: Int
+  email1: String, 
+  email2: String, 
+  phone1: String,
+  phone2: String,
+  yearOfBirth: Int,
+  city: String,
+  gender: String,
+  ethnicity: String
 }
-
 `;
 
 module.exports = {
