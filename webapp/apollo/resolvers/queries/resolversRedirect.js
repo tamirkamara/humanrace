@@ -13,10 +13,22 @@ const campaignQuery = (root, { id }) => {
   });
 };
 
-const campaignStatisticsQuery = (root, { name }) => {
-  return new Promise((resolve, reject) => {
-    resolve([{ 'steps': 1, 'goal': 2, user: { 'name': 'aaa', 'id': 2 } }]);
-  });
+const campaignStatisticsQuery = (root, { campaignId }) => {
+    try {
+       return sqlSchema.CampaignStats.findAll(
+        {
+          where: {
+            CampaignId: campaignId
+          }
+        }
+      ).then(function(result) {
+        return JSON.parse(JSON.stringify(result));     
+      })
+    }
+    catch (err) {
+      console.error('Error:' + err);
+      return err;
+    }
 };
 
 const usersQuery = (root, { userId }) => {
@@ -56,6 +68,7 @@ const initialRegisterQuery = (root, { name, email, source, sourceToken, code }) 
       Email1: email,
       AuthSource: source,
       AuthSourceToken: sourceToken,
+<<<<<<< HEAD
       UserId: uuidv4(),
       GoogleFitToken: tokens.refresh_token
     })
@@ -64,6 +77,11 @@ const initialRegisterQuery = (root, { name, email, source, sourceToken, code }) 
     })
     .catch((err) => {
       return err;
+=======
+      UserId: uuidv4()
+    }).then(function (result) {
+      return { 'userId': result.UserId };
+>>>>>>> add campign stats query
     });
   })
   .catch((err) => {
@@ -71,7 +89,7 @@ const initialRegisterQuery = (root, { name, email, source, sourceToken, code }) 
   });
 };
 
-const finishRegisterQuery = (root, {userId, email2, password, yearOfBirth, phone1, phone2, city, gender, ethnicity}) => {
+const finishRegisterQuery = (root, { userId, email2, password, yearOfBirth, phone1, phone2, city, gender, ethnicity }) => {
   try {
     return sqlSchema.Users.update({
       Email2: email2,
@@ -83,11 +101,12 @@ const finishRegisterQuery = (root, {userId, email2, password, yearOfBirth, phone
       Gender: gender,
       Ethnicity: ethnicity
     }, {
-      where: {
-        UserId: userId
-      } }
-     ).then(function (result) {
-      return { 'message' : 'OK'} ;
+        where: {
+          UserId: userId
+        }
+      }
+    ).then(function (result) {
+      return { 'message': 'OK' };
     });
   }
   catch (err) {

@@ -6,8 +6,8 @@ type Query {
   campaign(id: Int): Campaign,
   campaigns: [Campaign],
   campaignStatistics(campaignId: Int): [CampaignStatistics],
-  usersStatistics(userId: Int): [UserStatistics],
-  user(userId: String): UserInfo
+  usersStatistics(userId: String): [UserStatistics],
+  user(userId: String): User
 }
 
 type Campaign {
@@ -16,10 +16,10 @@ type Campaign {
 }
 
 type CampaignStatistics {
-  campaign: Campaign,
-  steps: Int,
-  goal:Int,
-  percentageCompleted: Int,
+  CampaignId: String,
+  MetricId: Int,
+  Day: String,
+  TotalPerDay: Int
 }
 
 type UserStatistics {
