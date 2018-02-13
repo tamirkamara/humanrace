@@ -13,8 +13,6 @@ const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 
 var app = express();
 var serverOptions = {};
-//var port = 443;
-var users = {};
 
 const PORT = process.env.PORT || 4000;
 
@@ -41,18 +39,6 @@ app.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 
 // simple GET commands:
 
-//https://localhost/getTokens?clientid=291887666877-tfmttdff0s84jukc9nqsutdinn1s73hd.apps.googleusercontent.com&clientsecret=LQQl6TDX9oW2To9afvg9IS8O&code=4/AABj572xOc2n_BCzb1qe0xiQWSYjwQ3aWvSM7ir5g7NiyTqcHcur0eCR-vXqWoNehF0s4rTjnOJB3mz0vlA1-rw#
-app.get('/getTokensApi', async (req, res) => {
-    try {
-        sevices.getTokensApi(req.query.clientid, req.query.clientsecret, req.query.code);
-        return res.send('OK');
-    }
-    catch (err) {
-        console.error('Error:' + err);
-        return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error.', err });
-    }
-});
-
 app.get('/getTokens', async (req, res) => {
     try {
         sevices.getTokens(req.query.clientid, req.query.clientsecret, req.query.code);
@@ -63,24 +49,6 @@ app.get('/getTokens', async (req, res) => {
         return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error.', err });
     }
 });
-
-// POST commands
-/*
-app.post('/userinfo', async (req, res) => {
-    if (!validate(req.body, schema.userinfo.post).valid) {
-        return res.status(HttpStatus.BAD_REQUEST).json({ error: `invalid schema - expected schema is ${util.inspect(schema.userinfo.post)}` });
-    }
-
-    if(req.body.userId){
-        console.info('Received the following user info:' + JSON.stringify(req.body));
-        users[req.body.userId] = req.body;
-        return res.send('OK');
-    }else{
-        console.error('No userId found in the request body.');
-        return res.status(HttpStatus.BAD_REQUEST).json({ error: 'No userId found in the request body.'});
-    }
-});
-*/
 
 process.on('uncaughtException', err => {
     console.error(`uncaught exception: ${err.message}`);
