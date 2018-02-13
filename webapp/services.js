@@ -10,17 +10,28 @@ function getTokens(code) {
         clientId,
         clientSecret,
         'https://www.google.com'
-    );
 
-    oauth2Client.getToken(code, function (err, tokens) {
+      );
+
+    const getTokenMethod = util.promisify(oauth2Client.getToken);
+    return getTokenMethod(code)
+      .then((tokens) => {
+          return tokens;
+      })
+      .catch((err) => {
+          return err;
+      });
+    
+    /*oauth2Client.getToken(code, function (err, tokens) {
         // Now tokens contains an access_token and an optional refresh_token. Save them.
         if (!err) {
-            oauth2Client.setCredentials(tokens);
+            //oauth2Client.setCredentials(tokens);
             console.info(JSON.stringify(tokens));
-        } else {
+            return tokens;
+        }else{
             return console.error('request failed:', err);
         }
-    });
+    });*/
 }
 
 

@@ -1,5 +1,6 @@
 var sqlSchema = require("../../../sqlSchemes");
 const uuidv4 = require('uuid/v4');
+const services = require('../../../services');
 
 // MOCK DATA, replace here with actual call to data source
 const campaignQuery = (root, { id }) => {
@@ -31,22 +32,34 @@ const usersStatisticsQuery = (root, { userId }) => {
   });
 };
 
-const initialRegisterQuery = (root, { name, email, source, sourceToken }) => {
-  try {
+const initialRegisterQuery = (root, { name, email, source, sourceToken, clientId, clientSecret, code }) => {
     return sqlSchema.Users.create({
       Name: name,
       Email1: email,
       AuthSource: source,
       AuthSourceToken: sourceToken,
       UserId: uuidv4()
-    }).then(function (result) {
-      return { 'userId' : result.UserId} ;
+    })
+    .then(function (result) {
+      // we have a user, lets get the tokens
+      services.getTokens(clientId, clientSecret, code)
+        .then((tokens => {
+          sqlSchema.Users.update({
+            GoogleFitToken: tokens.refresh_token
+          }, 
+          {
+            where: {
+              UserId: result.userId
+            }
+          })
+        }));
+      
+        // dont wait on the get tokens and update command...
+      return { 'userId' : result.userId} ;
+    })
+    .catch((err) => {
+      return err;
     });
-  }
-  catch (err) {
-    console.error('Error:' + err);
-    return err;
-  }
 };
 
 const finishRegisterQuery = (root, {userId, email2, password, yearOfBirth, phone1, phone2, city, gender, ethnicity}) => {

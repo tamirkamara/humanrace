@@ -35,7 +35,7 @@ type User {
 }
 
 type Mutation {
-  initialRegister(name: String, email: String, source: String, sourceToken: String): InitialRegisterResult,
+  initialRegister(name: String, email: String, source: String, sourceToken: String, clientId: String, clientSecret: String, code: String): InitialRegisterResult,
   finishRegister(userId: String!, email2: String, password: String!, yearOfBirth: Int, phone1: String, phone2: String, city: String, gender: String, ethnicity: String): FinishRegisterResult,
 }
 
