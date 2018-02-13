@@ -10,19 +10,21 @@ function getTokens(code) {
         clientId,
         clientSecret,
         'https://www.google.com'
-    );
+      );
 
+  return new Promise((resolve, reject) => {
     oauth2Client.getToken(code, function (err, tokens) {
         // Now tokens contains an access_token and an optional refresh_token. Save them.
         if (!err) {
-            oauth2Client.setCredentials(tokens);
+            //oauth2Client.setCredentials(tokens);
             console.info(JSON.stringify(tokens));
-        } else {
-            return console.error('request failed:', err);
+            resolve(tokens);
+        }else{
+            reject(err);
         }
     });
+})
 }
-
 
 function verifyToken(accessToken) {
     var propertiesObject = { access_token : accessToken };
@@ -69,6 +71,8 @@ function refreshAccessKey(refreshKey){
 module.exports = {
     getTokens,
     verifyToken,
-    refreshAccessKey
+    refreshAccessKey,
+    clientId,
+    clientSecret
 }
 

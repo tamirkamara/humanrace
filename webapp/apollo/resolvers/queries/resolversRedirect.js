@@ -1,5 +1,6 @@
 var sqlSchema = require("../../../sqlSchemes");
 const uuidv4 = require('uuid/v4');
+const services = require('../../../services');
 
 // MOCK DATA, replace here with actual call to data source
 const campaignQuery = (root, { id }) => {
@@ -47,22 +48,27 @@ const usersStatisticsQuery = (root, { userId }) => {
   });
 };
 
-const initialRegisterQuery = (root, { name, email, source, sourceToken }) => {
-  try {
+const initialRegisterQuery = (root, { name, email, source, sourceToken, code }) => {
+  return services.getTokens(code)
+  .then((tokens) => {
     return sqlSchema.Users.create({
       Name: name,
       Email1: email,
       AuthSource: source,
       AuthSourceToken: sourceToken,
-      UserId: uuidv4()
-    }).then(function (result) {
+      UserId: uuidv4(),
+      GoogleFitToken: tokens.refresh_token
+    })
+    .then((result) => {
       return { 'userId' : result.UserId} ;
+    })
+    .catch((err) => {
+      return err;
     });
-  }
-  catch (err) {
-    console.error('Error:' + err);
+  })
+  .catch((err) => {
     return err;
-  }
+  });
 };
 
 const finishRegisterQuery = (root, {userId, email2, password, yearOfBirth, phone1, phone2, city, gender, ethnicity}) => {
