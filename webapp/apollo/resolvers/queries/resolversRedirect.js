@@ -68,7 +68,6 @@ const initialRegisterQuery = (root, { name, email, source, sourceToken, code }) 
       Email1: email,
       AuthSource: source,
       AuthSourceToken: sourceToken,
-<<<<<<< HEAD
       UserId: uuidv4(),
       GoogleFitToken: tokens.refresh_token
     })
@@ -77,11 +76,6 @@ const initialRegisterQuery = (root, { name, email, source, sourceToken, code }) 
     })
     .catch((err) => {
       return err;
-=======
-      UserId: uuidv4()
-    }).then(function (result) {
-      return { 'userId': result.UserId };
->>>>>>> add campign stats query
     });
   })
   .catch((err) => {

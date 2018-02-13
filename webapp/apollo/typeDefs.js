@@ -7,7 +7,7 @@ type Query {
   campaigns: [Campaign],
   campaignStatistics(campaignId: Int): [CampaignStatistics],
   usersStatistics(userId: String): [UserStatistics],
-  user(userId: String): User
+  user(userId: String): UserInfo
 }
 
 type Campaign {
@@ -23,15 +23,8 @@ type CampaignStatistics {
 }
 
 type UserStatistics {
-  user: User,
   totalSteps: Int,
   numberOfCampaigns:Int,
-}
-
-type User {
-  name: String,
-  id: Int,
-  Campaigns: [Campaign],
 }
 
 type Mutation {
