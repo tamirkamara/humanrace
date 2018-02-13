@@ -49,10 +49,36 @@ const initialRegisterQuery = (root, { name, email, source, sourceToken }) => {
   }
 };
 
+const finishRegisterQuery = (root, {userId, email2, password, yearOfBirth, phone1, phone2, city, gender, ethnicity}) => {
+  try {
+    return sqlSchema.Users.update({
+      Email2: email2,
+      Password: password,
+      YearOfBirth: yearOfBirth,
+      Phone1: phone1,
+      Phone2: phone2,
+      City: city,
+      Gender: gender,
+      Ethnicity: ethnicity
+    }, {
+      where: {
+        UserId: userId
+      } }
+     ).then(function (result) {
+      return { 'message' : 'OK'} ;
+    });
+  }
+  catch (err) {
+    console.error('Error:' + err);
+    return err;
+  }
+}
+
 module.exports = {
   campaignQuery,
   campaignStatisticsQuery,
   usersQuery,
   usersStatisticsQuery,
   initialRegisterQuery,
+  finishRegisterQuery,
 };

@@ -27,7 +27,7 @@ const Campaigns = sequelize.define('Campaigns', {
 });
 
 const UserActivities = sequelize.define('UserActivities', {
-    UserId: Sequelize.INTEGER,
+    UserId: Sequelize.UUIDV4,
     MetricType: Sequelize.STRING(20),
     StartTime: Sequelize.DATE,
     EndTime: Sequelize.DATE,
@@ -59,7 +59,7 @@ const Users = sequelize.define('Users', {
 
 const UsersInCampaigns = sequelize.define('Users', { 
     CapaignId: {type: Sequelize.INTEGER, allowNull: false},
-    UserId: {type: Sequelize.INTEGER, allowNull: false},
+    UserId: {type: Sequelize.UUIDV4, allowNull: false},
     JoinDate: Sequelize.DATE
 },
 {
