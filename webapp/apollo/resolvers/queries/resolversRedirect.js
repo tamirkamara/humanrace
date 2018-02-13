@@ -19,11 +19,27 @@ const campaignStatisticsQuery = (root, { name }) => {
 };
 
 const usersQuery = (root, { userId }) => {
-  return new Promise((resolve, reject) => {
-    resolve({ 'name': 'my user', 'id': 11 });
-  });
+  
+    // get sql data...
+    return sqlSchema.Users.find({
+      where: {
+        UserId: userId
+      }
+    }).then(function(result){
+      return { 
+        'userId': result.UserId, 
+        'name': result.Name, 
+        'email1':result.Email1, 
+        'email2':result.Email2, 
+        'phone1':result.Phone1, 
+        'phone2':result.Phone2, 
+        'yearOfBirth':result.YearOfBirth,
+        'city':result.City,
+        'gender':result.Gender,
+        'ethnicity':result.Ethnicity
+       };
+    })
 };
-
 
 const usersStatisticsQuery = (root, { userId }) => {
   return new Promise((resolve, reject) => {

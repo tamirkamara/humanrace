@@ -38,7 +38,7 @@ const UserActivities = sequelize.define('UserActivities', {
 });
 
 const Users = sequelize.define('Users', {
-    UserId: Sequelize.UUIDV4,
+    UserId: {type: Sequelize.UUIDV4, primaryKey: true},
     Name: Sequelize.STRING(50),
     Email1: Sequelize.STRING(50), 
     Email2: Sequelize.STRING(50),

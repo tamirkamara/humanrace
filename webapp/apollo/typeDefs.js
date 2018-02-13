@@ -7,7 +7,7 @@ type Query {
   campaigns: [Campaign],
   campaignStatistics(campaignId: Int): [CampaignStatistics],
   usersStatistics(userId: Int): [UserStatistics],
-  user(userId: Int): User
+  user(userId: String): UserInfo
 }
 
 type Campaign {
@@ -45,6 +45,14 @@ type InitialRegisterResult {
 
 type FinishRegisterResult {
   message: String
+}
+
+type UserInfo {
+  userId: String,
+  name: String,
+  phone: String,
+  email: String, 
+  yearOfBirth: Int
 }
 
 `;
