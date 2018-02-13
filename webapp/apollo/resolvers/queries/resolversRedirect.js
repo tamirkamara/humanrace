@@ -42,15 +42,18 @@ const initialRegisterQuery = (root, { name, email, source, sourceToken, code }) 
     })
     .then(function (result) {
       // we have a user, lets get the tokens
-      services.getTokens(code)
+      return services.getTokens(code)
         .then((tokens => {
-          sqlSchema.Users.update({
+          return sqlSchema.Users.update({
             GoogleFitToken: tokens.refresh_token
           }, 
           {
             where: {
               UserId: result.UserId
             }
+          })
+          .then(() => {
+            return { 'userId' : result.UserId} ;
           })
           .catch((err) => {
             return err;
@@ -59,10 +62,6 @@ const initialRegisterQuery = (root, { name, email, source, sourceToken, code }) 
         .catch((err) => {
           return err;
         });;
-      
-      // dont wait on the get tokens and update command...
-      // we want the userId anyway, so just return it
-      return { 'userId' : result.UserId} ;
     })
     .catch((err) => {
       return err;
