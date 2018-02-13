@@ -20,7 +20,9 @@ const Campaigns = sequelize.define('Campaigns', {
   Name: Sequelize.STRING(50),
   Sponser: Sequelize.STRING(50),
   GoalMetricType: Sequelize.SMALLINT,
-  GoalMetricValue: Sequelize.FLOAT(53)
+  GoalMetricValue: Sequelize.FLOAT(53),
+  ImageUrl: Sequelize.STRING(2000),
+  EndDate: Sequelize.DATE
 },
 {
     timestamps: false,
@@ -60,7 +62,8 @@ const Users = sequelize.define('Users', {
 const UsersInCampaigns = sequelize.define('Users', { 
     CapaignId: {type: Sequelize.INTEGER, allowNull: false},
     UserId: {type: Sequelize.UUIDV4, allowNull: false},
-    JoinDate: Sequelize.DATE
+    StartDate: {type: Sequelize.DATE, allowNull: false},
+    EndDate: Sequelize.DATE
 },
 {
     timestamps: false,
