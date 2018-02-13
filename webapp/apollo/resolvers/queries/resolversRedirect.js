@@ -32,7 +32,7 @@ const usersStatisticsQuery = (root, { userId }) => {
   });
 };
 
-const initialRegisterQuery = (root, { name, email, source, sourceToken, clientId, clientSecret, code }) => {
+const initialRegisterQuery = (root, { name, email, source, sourceToken, code }) => {
     return sqlSchema.Users.create({
       Name: name,
       Email1: email,
@@ -42,20 +42,27 @@ const initialRegisterQuery = (root, { name, email, source, sourceToken, clientId
     })
     .then(function (result) {
       // we have a user, lets get the tokens
-      services.getTokens(clientId, clientSecret, code)
+      services.getTokens(code)
         .then((tokens => {
           sqlSchema.Users.update({
             GoogleFitToken: tokens.refresh_token
           }, 
           {
             where: {
-              UserId: result.userId
+              UserId: result.UserId
             }
           })
-        }));
+          .catch((err) => {
+            return err;
+          });
+        }))
+        .catch((err) => {
+          return err;
+        });;
       
-        // dont wait on the get tokens and update command...
-      return { 'userId' : result.userId} ;
+      // dont wait on the get tokens and update command...
+      // we want the userId anyway, so just return it
+      return { 'userId' : result.UserId} ;
     })
     .catch((err) => {
       return err;
