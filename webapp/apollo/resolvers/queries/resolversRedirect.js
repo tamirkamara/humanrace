@@ -33,39 +33,26 @@ const usersStatisticsQuery = (root, { userId }) => {
 };
 
 const initialRegisterQuery = (root, { name, email, source, sourceToken, code }) => {
+  return services.getTokens(code)
+  .then((tokens) => {
     return sqlSchema.Users.create({
       Name: name,
       Email1: email,
       AuthSource: source,
       AuthSourceToken: sourceToken,
-      UserId: uuidv4()
+      UserId: uuidv4(),
+      GoogleFitToken: tokens.refresh_token
     })
-    .then(function (result) {
-      // we have a user, lets get the tokens
-      return services.getTokens(code)
-        .then((tokens => {
-          return sqlSchema.Users.update({
-            GoogleFitToken: tokens.refresh_token
-          }, 
-          {
-            where: {
-              UserId: result.UserId
-            }
-          })
-          .then(() => {
-            return { 'userId' : result.UserId} ;
-          })
-          .catch((err) => {
-            return err;
-          });
-        }))
-        .catch((err) => {
-          return err;
-        });;
+    .then((result) => {
+      return { 'userId' : result.UserId} ;
     })
     .catch((err) => {
       return err;
     });
+  })
+  .catch((err) => {
+    return err;
+  });
 };
 
 const finishRegisterQuery = (root, {userId, email2, password, yearOfBirth, phone1, phone2, city, gender, ethnicity}) => {
