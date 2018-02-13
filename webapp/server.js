@@ -31,7 +31,7 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 app.get('/', (req, res) => {
-	return res.end(`Server is running!!!`);
+    return res.end(`Server is running!!!`);
 });
 
 // complex data structure are returned via graphql query language:
@@ -43,24 +43,24 @@ app.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 
 //https://localhost/getTokens?clientid=291887666877-tfmttdff0s84jukc9nqsutdinn1s73hd.apps.googleusercontent.com&clientsecret=LQQl6TDX9oW2To9afvg9IS8O&code=4/AABj572xOc2n_BCzb1qe0xiQWSYjwQ3aWvSM7ir5g7NiyTqcHcur0eCR-vXqWoNehF0s4rTjnOJB3mz0vlA1-rw#
 app.get('/getTokensApi', async (req, res) => {
-    try{
-        sevices.getTokensApi(req.query.clientid,req.query.clientsecret,req.query.code);
+    try {
+        sevices.getTokensApi(req.query.clientid, req.query.clientsecret, req.query.code);
         return res.send('OK');
     }
-    catch(err) {
+    catch (err) {
         console.error('Error:' + err);
-        return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error.', err});
+        return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error.', err });
     }
 });
 
 app.get('/getTokens', async (req, res) => {
-    try{
-        sevices.getTokens(req.query.clientid,req.query.clientsecret,req.query.code);
+    try {
+        sevices.getTokens(req.query.clientid, req.query.clientsecret, req.query.code);
         return res.send('OK');
     }
-    catch(err) {
+    catch (err) {
         console.error('Error:' + err);
-        return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error.', err});
+        return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error.', err });
     }
 });
 
@@ -83,6 +83,6 @@ app.post('/userinfo', async (req, res) => {
 */
 
 process.on('uncaughtException', err => {
-	console.error(`uncaught exception: ${err.message}`);
-	setTimeout(() =>  process.exit(1), 1000);
+    console.error(`uncaught exception: ${err.message}`);
+    setTimeout(() => process.exit(1), 1000);
 });

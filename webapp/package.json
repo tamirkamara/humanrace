@@ -21,7 +21,8 @@
     "jsonschema": "^1.2.2",
     "request": "^2.83.0",
     "sequelize": "^4.33.3",
-    "tedious": "^2.3.1"
+    "tedious": "^2.3.1",
+    "uuid": "^3.2.1"
   },
   "engines": {
     "node": "8.7.0",

@@ -35,7 +35,11 @@ type User {
 }
 
 type Mutation {
-  initialRegister(name: String, email: String, source: String, sourceToken: String): String,
+  initialRegister(name: String, email: String, source: String, sourceToken: String): InitialRegierResult,
+}
+
+type InitialRegierResult {
+  userId: String
 }
 
 `;
