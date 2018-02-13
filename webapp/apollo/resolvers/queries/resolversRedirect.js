@@ -1,3 +1,4 @@
+var sqlSchema = require("../../../sqlSchemes");
 
 // MOCK DATA, replace here with actual call to data source
 const campaignQuery = (root, { id }) => {
@@ -15,13 +16,6 @@ const campaignStatisticsQuery = (root, { name }) => {
     resolve([{ 'steps' : 1 , 'goal' : 2 , user: {'name' : 'aaa', 'id' : 2}}]);
 });
 };
-/*
-const statsQuery = (root, { userId }) => {
-  return new Promise((resolve, reject) => {
-    resolve([{ 'steps' : 1 , 'goal' : 2, 'percentageCompleted': 50, 'campaign' : {'name': 'HumanRace', 'id' : 2}}]);
-});
-};*/  
-
 
 const usersQuery = (root, { userId }) => {
   return new Promise((resolve, reject) => {
@@ -36,12 +30,27 @@ const usersStatisticsQuery = (root, { userId }) => {
 });
 };
 
-
+const initialRegisterQuery = (root, { name, email, source, sourceToken }) => {
+  return new Promise((res, reject) => {
+    try {
+      sqlSchema.Users.create({
+          Name: name,
+          Email1: email,
+          AuthSource: source,
+          AuthSourceToken: sourceToken
+      })
+      return res('OK');
+      }
+      catch(err) {
+          console.error('Error:' + err);
+          return reject(err);
+      }});
+};
 
 module.exports = {
   campaignQuery,
   campaignStatisticsQuery,
-  //statsQuery,
   usersQuery,
   usersStatisticsQuery,
+  initialRegisterQuery,
 };

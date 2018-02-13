@@ -34,6 +34,10 @@ type User {
   Campaigns: [Campaign],
 }
 
+type Mutation {
+  initialRegister(name: String, email: String, source: String, sourceToken: String): String,
+}
+
 `;
 
 module.exports = {

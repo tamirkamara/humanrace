@@ -65,6 +65,7 @@ app.get('/getTokens', async (req, res) => {
 });
 
 // POST commands
+/*
 app.post('/userinfo', async (req, res) => {
     if (!validate(req.body, schema.userinfo.post).valid) {
         return res.status(HttpStatus.BAD_REQUEST).json({ error: `invalid schema - expected schema is ${util.inspect(schema.userinfo.post)}` });
@@ -79,23 +80,7 @@ app.post('/userinfo', async (req, res) => {
         return res.status(HttpStatus.BAD_REQUEST).json({ error: 'No userId found in the request body.'});
     }
 });
-
-app.post('/initialregister', async (req, res) => {
-    try {
-    //TODO: add input validation
-    sqlSchemes.Users.create({
-        Name: req.body.Name,
-        Email1: req.body.Email,
-        AuthSource: req.body.Source,
-        AuthSourceToken: req.body.SourceToken
-        })
-    return res.send('OK');
-    }
-    catch(err) {
-        console.error('Error:' + err);
-        return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error.', err});
-    }
-});
+*/
 
 process.on('uncaughtException', err => {
 	console.error(`uncaught exception: ${err.message}`);

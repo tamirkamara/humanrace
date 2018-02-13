@@ -1,4 +1,5 @@
 const { campaignQuery, campaignStatisticsQuery, usersQuery, usersStatisticsQuery } = require('./queries/resolversRedirect.js');
+const { initialRegisterQuery } = require('./queries/resolversRedirect.js');
 
 const resolvers = {
   Query: {
@@ -8,6 +9,9 @@ const resolvers = {
     user: usersQuery,
     usersStatistics: usersStatisticsQuery,
   },
+  Mutation: {
+    initialRegister: initialRegisterQuery,
+  }
 };
 
 module.exports = {
