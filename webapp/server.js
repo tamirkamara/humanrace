@@ -85,8 +85,9 @@ app.post('/initialregister', async (req, res) => {
     //TODO: add input validation
     sqlSchemes.Users.create({
         Name: req.body.Name,
-        Email1: req.body.Email1,
-        AuthSource: req.body.Source
+        Email1: req.body.Email,
+        AuthSource: req.body.Source,
+        AuthSourceToken: req.body.SourceToken
         })
     return res.send('OK');
     }
