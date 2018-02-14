@@ -2,16 +2,42 @@ var sqlSchema = require("../../../sqlSchemes");
 const uuidv4 = require('uuid/v4');
 const services = require('../../../services');
 
-// MOCK DATA, replace here with actual call to data source
 const campaignQuery = (root, { id }) => {
-  return new Promise((resolve, reject) => {
-    if (id) {
-      resolve({ 'name': 'Collect steps campaign', 'id': 3 })
+  return sqlSchema.Campaigns.find({
+    where: {
+      Id: id
     }
-    resolve([{ 'name': 'Sunflower', 'id': 1 },
-    { 'name': 'HumanRace', 'id': 2 }]);
+  }).then(function(result){
+    return { 
+      'id': result.Id, 
+      'name': result.Name, 
+      'sponsor':result.Sponsor, 
+      'goalMetricType':result.GoalMetricType, 
+      'goalMetricValue':result.GoalMetricValue, 
+      'imageUrl':result.ImageUrl, 
+      'endDate':result.EndDate
+     };
   });
 };
+
+const campaignsQuery = (root, {}) => {
+  return sqlSchema.Campaigns.findAll()
+  .then(function(result){
+    var campaigns = [];
+    for(var i in result){
+      campaigns.push({
+        'id': result[i].Id, 
+        'name': result[i].Name, 
+        'sponsor':result[i].Sponsor, 
+        'goalMetricType':result[i].GoalMetricType, 
+        'goalMetricValue':result[i].GoalMetricValue, 
+        'imageUrl':result[i].ImageUrl, 
+        'endDate':result[i].EndDate
+      });
+    }
+    return campaigns;
+  });
+}
 
 const campaignStatisticsQuery = (root, { campaignId }) => {
     try {
@@ -32,8 +58,6 @@ const campaignStatisticsQuery = (root, { campaignId }) => {
 };
 
 const usersQuery = (root, { userId }) => {
-  
-    // get sql data...
     return sqlSchema.Users.find({
       where: {
         UserId: userId
@@ -111,6 +135,7 @@ const finishRegisterQuery = (root, { userId, email2, password, yearOfBirth, phon
 
 module.exports = {
   campaignQuery,
+  campaignsQuery,
   campaignStatisticsQuery,
   usersQuery,
   usersStatisticsQuery,

@@ -11,8 +11,13 @@ type Query {
 }
 
 type Campaign {
-  name: String
   id: Int
+  name: String,
+  sponsor: String
+  goalMetricType: Int
+  goalMetricValue: Float
+  imageUrl: String
+  endDate: String
 }
 
 type CampaignStatistics {
