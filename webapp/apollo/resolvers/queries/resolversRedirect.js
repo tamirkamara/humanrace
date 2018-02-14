@@ -79,7 +79,7 @@ const initialRegisterQuery = (root, { name, email, source, sourceToken, code }) 
     });
   })
   .catch((err) => {
-    return err;
+    return "Failed getting google refresh token: " + err;
   });
 };
 
