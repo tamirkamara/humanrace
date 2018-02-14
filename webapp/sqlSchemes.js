@@ -18,7 +18,7 @@ const sequelize = new Sequelize(process.env["sqldatabase"], process.env["sqluser
 const Campaigns = sequelize.define('Campaigns', {
     Id: { type: Sequelize.INTEGER, primaryKey: true },
     Name: Sequelize.STRING(50),
-    Sponser: Sequelize.STRING(50),
+    Sponsor: Sequelize.STRING(50),
     GoalMetricType: Sequelize.SMALLINT,
     GoalMetricValue: Sequelize.FLOAT(53),
     ImageUrl: Sequelize.STRING(2000),
