@@ -16,7 +16,7 @@ const sequelize = new Sequelize(process.env["sqldatabase"], process.env["sqluser
 });
 
 const Campaigns = sequelize.define('Campaigns', {
-    Id: {type: Sequelize.INTEGER, primaryKey: true },
+    Id: { type: Sequelize.INTEGER, primaryKey: true },
     Name: Sequelize.STRING(50),
     Sponser: Sequelize.STRING(50),
     GoalMetricType: Sequelize.SMALLINT,
@@ -29,9 +29,9 @@ const Campaigns = sequelize.define('Campaigns', {
     });
 
 const UserActivities = sequelize.define('UserActivities', {
-    UserId: {type: Sequelize.UUIDV4, primaryKey: true}, 
-    MetricType: { type: Sequelize.STRING(20),  primaryKey: true}, 
-    StartTime: { type: Sequelize.DATE, primaryKey: true}, 
+    UserId: { type: Sequelize.UUIDV4, primaryKey: true },
+    MetricType: { type: Sequelize.STRING(20), primaryKey: true },
+    StartTime: { type: Sequelize.DATE, primaryKey: true },
     EndTime: Sequelize.DATE,
     MetricValue: Sequelize.INTEGER
 },
@@ -40,7 +40,7 @@ const UserActivities = sequelize.define('UserActivities', {
     });
 
 const Users = sequelize.define('Users', {
-    UserId: {type: Sequelize.UUIDV4, primaryKey: true},
+    UserId: { type: Sequelize.UUIDV4, primaryKey: true },
     Name: Sequelize.STRING(50),
     Email1: Sequelize.STRING(50),
     Email2: Sequelize.STRING(50),
@@ -79,10 +79,21 @@ const CampaignStats = sequelize.define('vCampaignStats', {
         timestamps: false,
     });
 
+const UserStats = sequelize.define('vUserStats', {
+    UserId: { type: Sequelize.UUIDV4, allowNull: false, primaryKey: true },
+    Day: { type: Sequelize.DATE, allowNull: false },
+    MetricId: { type: Sequelize.INTEGER, allowNull: false },
+    TotalPerDay: { type: Sequelize.DATE },
+},
+    {
+        timestamps: false,
+    });
+
 module.exports = {
     Users,
     UserActivities,
     Campaigns,
     UsersInCampaigns,
-    CampaignStats
+    CampaignStats,
+    UserStats
 }

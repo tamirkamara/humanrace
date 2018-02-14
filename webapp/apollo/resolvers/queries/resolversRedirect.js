@@ -32,8 +32,7 @@ const campaignStatisticsQuery = (root, { campaignId }) => {
 };
 
 const usersQuery = (root, { userId }) => {
-  
-    // get sql data...
+  try{
     return sqlSchema.Users.find({
       where: {
         UserId: userId
@@ -52,12 +51,29 @@ const usersQuery = (root, { userId }) => {
         'ethnicity':result.Ethnicity
        };
     })
+  }
+  catch (err) {
+    console.error('Error:' + err);
+    return err;
+  }
 };
 
 const usersStatisticsQuery = (root, { userId }) => {
-  return new Promise((resolve, reject) => {
-    resolve([{ 'userId': userId, 'totalSteps': 11 }]);
-  });
+  try {
+    return sqlSchema.UserStats.findAll(
+     {
+       where: {
+         UserId: userId
+       }
+     }
+   ).then(function(result) {
+     return JSON.parse(JSON.stringify(result));     
+   })
+ }
+ catch (err) {
+   console.error('Error:' + err);
+   return err;
+ }
 };
 
 const initialRegisterQuery = (root, { name, email, source, sourceToken, code }) => {

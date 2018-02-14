@@ -23,8 +23,10 @@ type CampaignStatistics {
 }
 
 type UserStatistics {
-  totalSteps: Int,
-  numberOfCampaigns:Int,
+  UserId: String,
+  MetricId: Int,
+  Day: String,
+  TotalPerDay: Int
 }
 
 type Mutation {
