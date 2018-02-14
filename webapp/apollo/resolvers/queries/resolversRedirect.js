@@ -3,40 +3,52 @@ const uuidv4 = require('uuid/v4');
 const services = require('../../../services');
 
 const campaignQuery = (root, { id }) => {
-  return sqlSchema.Campaigns.find({
-    where: {
-      Id: id
-    }
-  }).then(function(result){
-    return { 
-      'id': result.Id, 
-      'name': result.Name, 
-      'sponsor':result.Sponsor, 
-      'goalMetricType':result.GoalMetricType, 
-      'goalMetricValue':result.GoalMetricValue, 
-      'imageUrl':result.ImageUrl, 
-      'endDate':result.EndDate
-     };
-  });
+  try{
+    return sqlSchema.Campaigns.find({
+      where: {
+        Id: id
+      }
+    }).then(function(result){
+      return { 
+        'id': result.Id, 
+        'name': result.Name, 
+        'sponsor':result.Sponsor, 
+        'goalMetricType':result.GoalMetricType, 
+        'goalMetricValue':result.GoalMetricValue, 
+        'imageUrl':result.ImageUrl, 
+        'endDate':result.EndDate
+      };
+    });
+  }
+  catch (err) {
+    console.error('Error:' + err);
+    return err;
+  }
 };
 
 const campaignsQuery = (root, {}) => {
-  return sqlSchema.Campaigns.findAll()
-  .then(function(result){
-    var campaigns = [];
-    for(var i in result){
-      campaigns.push({
-        'id': result[i].Id, 
-        'name': result[i].Name, 
-        'sponsor':result[i].Sponsor, 
-        'goalMetricType':result[i].GoalMetricType, 
-        'goalMetricValue':result[i].GoalMetricValue, 
-        'imageUrl':result[i].ImageUrl, 
-        'endDate':result[i].EndDate
-      });
-    }
-    return campaigns;
-  });
+  try{
+    return sqlSchema.Campaigns.findAll()
+    .then(function(result){
+      var campaigns = [];
+      for(var i in result){
+        campaigns.push({
+          'id': result[i].Id, 
+          'name': result[i].Name, 
+          'sponsor':result[i].Sponsor, 
+          'goalMetricType':result[i].GoalMetricType, 
+          'goalMetricValue':result[i].GoalMetricValue, 
+          'imageUrl':result[i].ImageUrl, 
+          'endDate':result[i].EndDate
+        });
+      }
+      return campaigns;
+    });
+  }
+  catch (err) {
+    console.error('Error:' + err);
+    return err;
+  }
 }
 
 const campaignStatisticsQuery = (root, { campaignId }) => {
@@ -58,6 +70,7 @@ const campaignStatisticsQuery = (root, { campaignId }) => {
 };
 
 const usersQuery = (root, { userId }) => {
+  try{
     return sqlSchema.Users.find({
       where: {
         UserId: userId
@@ -76,12 +89,29 @@ const usersQuery = (root, { userId }) => {
         'ethnicity':result.Ethnicity
        };
     })
+  }
+  catch (err) {
+    console.error('Error:' + err);
+    return err;
+  }
 };
 
 const usersStatisticsQuery = (root, { userId }) => {
-  return new Promise((resolve, reject) => {
-    resolve([{ 'userId': userId, 'totalSteps': 11 }]);
-  });
+  try {
+    return sqlSchema.UserStats.findAll(
+     {
+       where: {
+         UserId: userId
+       }
+     }
+   ).then(function(result) {
+     return JSON.parse(JSON.stringify(result));     
+   })
+ }
+ catch (err) {
+   console.error('Error:' + err);
+   return err;
+ }
 };
 
 const initialRegisterQuery = (root, { name, email, source, sourceToken, code }) => {
@@ -103,6 +133,7 @@ const initialRegisterQuery = (root, { name, email, source, sourceToken, code }) 
     });
   })
   .catch((err) => {
+    err.message = "Failed getting google refresh token: " + err.message;
     return err;
   });
 };
