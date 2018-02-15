@@ -186,14 +186,21 @@ const updateActivityQuery = (root, { input }) => {
       MetricValue: activity.val
     });
   });
+
   return Promise.all(promises)
     .then(function () {
       //  return Promise.resolve(result);
-      return Promise.resolve("Done");
-    });
-
-  // Todo: after finish , in the user db -> mark as synched
-  // return "ok";
+      return sqlSchema.UserActivities.update({
+        LastActivitySync: new Date(Date.now()).toISOString(),
+      }, {
+          where: {
+            UserId: input.userId
+          }
+        });
+    }).then(()=>
+  {
+    return "done";
+  });
 }
 
 module.exports = {
