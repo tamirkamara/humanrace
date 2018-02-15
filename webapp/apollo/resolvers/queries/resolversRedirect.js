@@ -7,7 +7,7 @@ const Op = Sequelize.Op;
 var MetricType = {"steps": 1, "distance": 2}
 
 const getMetricId = (str) => {
-  if (str.includes("steps_count")) {
+  if (str.includes("step_count")) {
     return MetricType.steps;
   }
   
