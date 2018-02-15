@@ -1,5 +1,5 @@
 const { campaignQuery, campaignsQuery, campaignStatisticsQuery, usersQuery, usersStatisticsQuery} = require('./queries/resolversRedirect.js');
-const { initialRegisterQuery, finishRegisterQuery, finishCampaignParticipationQuery, campaignParticipationQuery} = require('./queries/resolversRedirect.js');
+const { initialRegisterQuery, finishRegisterQuery, updateActivityQuery, finishCampaignParticipationQuery, campaignParticipationQuery} = require('./queries/resolversRedirect.js');
 
 const resolvers = {
   Query: {
@@ -13,7 +13,8 @@ const resolvers = {
     initialRegister: initialRegisterQuery,
     finishRegister: finishRegisterQuery,
     finishCampaignParticipation: finishCampaignParticipationQuery,
-    campaignParticipation: campaignParticipationQuery
+    campaignParticipation: campaignParticipationQuery,
+    updateActivity: updateActivityQuery,
   }
 };
 

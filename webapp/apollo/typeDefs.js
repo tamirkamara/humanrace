@@ -1,5 +1,3 @@
-// todo: this could be extracted to a module shared between client and server
-
 const typeDefs = `
 
 type Query {
@@ -34,12 +32,25 @@ type UserStatistics {
   TotalPerDay: Int
 }
 
+input ActivityInput {
+  dataSourceId: String,
+  startTimeMillis: String,
+  endTimeMillis: String,
+  val: Int
+}
+
+input ActivitiesInput {
+  userId: String!,
+  userActivities: [ActivityInput]
+}
+
 type Mutation {
   initialRegister(name: String!, email: String, source: String, sourceToken: String, code: String!): InitialRegisterResult,
   finishRegister(userId: String!, email2: String, password: String!, yearOfBirth: Int, phone1: String, phone2: String, city: String, gender: String, ethnicity: String): FinishRegisterResult,
   finishCampaignParticipation(userId: String!, campaignId: Int!, startDate: String!, endDate: String): finishCampaignParticipationResult,
-  campaignParticipation(userId: String!, campaignId: Int!, startDate: String!, endDate: String): campaignParticipationResult
-} 
+  campaignParticipation(userId: String!, campaignId: Int!, startDate: String!, endDate: String): campaignParticipationResult,
+  updateActivity(input: ActivitiesInput!): String
+}
 
 type InitialRegisterResult {
   userId: String

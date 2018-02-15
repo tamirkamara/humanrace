@@ -1,9 +1,18 @@
-var sqlSchema = require("../../../sqlSchemes");
+const sqlSchema = require("../../../sqlSchemes");
 const uuidv4 = require('uuid/v4');
 const services = require('../../../services');
 const Sequelize = require('sequelize');
 
 const Op = Sequelize.Op;
+var MetricType = {"steps": 1, "distance": 2}
+
+const getMetricId = (str) => {
+  if (str.includes("steps_count")) {
+    return MetricType.steps;
+  }
+  
+  return MetricType.distance;
+}
 
 const campaignQuery = (root, { id }) => {
   try{
@@ -117,16 +126,19 @@ const usersStatisticsQuery = (root, { userId }) => {
  }
 };
 
+// to utilize the 'code' param which for now is disabled, uncomment (all of) the following commented out 
+// lines, this will go to google and get the refresh token using the code and save it into
+// SQL.
 const initialRegisterQuery = (root, { name, email, source, sourceToken, code }) => {
-  return services.getTokens(code)
-  .then((tokens) => {
+  //return services.getTokens(code)
+  //.then((tokens) => {
     return sqlSchema.Users.create({
       Name: name,
       Email1: email,
       AuthSource: source,
       AuthSourceToken: sourceToken,
       UserId: uuidv4(),
-      GoogleFitToken: tokens.refresh_token
+      GoogleFitToken: 'tbd token' //tokens.refresh_token
     })
     .then((result) => {
       return { 'userId' : result.UserId} ;
@@ -134,11 +146,11 @@ const initialRegisterQuery = (root, { name, email, source, sourceToken, code }) 
     .catch((err) => {
       return err;
     });
-  })
-  .catch((err) => {
-    err.message = "Failed getting google refresh token: " + err.message;
-    return err;
-  });
+  //})
+  //.catch((err) => {
+  //  err.message = "Failed getting google refresh token: " + err.message;
+  //  return err;
+  //});
 };
 
 const finishRegisterQuery = (root, { userId, email2, password, yearOfBirth, phone1, phone2, city, gender, ethnicity }) => {
@@ -212,6 +224,33 @@ const campaignParticipationQuery = (root, {userId, campaignId, startDate, endDat
   }
 }
 
+const updateActivityQuery = (root, { input }) => {
+  console.log(input);
+  var promises = input.userActivities.map(function (activity) {
+    return sqlSchema.UserActivities.create({
+      UserId: input.userId,
+      MetricId: getMetricId(activity.dataSourceId),
+      StartTime: new Date(Number(activity.startTimeMillis)).toISOString(),
+      EndTime: new Date(Number(activity.endTimeMillis)).toISOString(),
+      MetricValue: activity.val
+    });
+  });
+
+  return Promise.all(promises)
+    .then(function () {
+      //  return Promise.resolve(result);
+      return sqlSchema.Users.update({
+        LastActivitySync: new Date(Date.now()).toISOString(),
+      }, {
+          where: {
+            UserId: input.userId
+          }
+        });
+    }).then(()=>
+  {
+    return "done";
+  });
+}
 
 module.exports = {
   campaignQuery,
@@ -222,5 +261,6 @@ module.exports = {
   initialRegisterQuery,
   finishRegisterQuery,
   finishCampaignParticipationQuery,
-  campaignParticipationQuery
+  campaignParticipationQuery,
+  updateActivityQuery
 };
