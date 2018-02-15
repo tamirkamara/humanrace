@@ -31,8 +31,8 @@ const Campaigns = sequelize.define('Campaigns', {
 const UserActivities = sequelize.define('UserActivities', {
     UserId: { type: Sequelize.UUIDV4, primaryKey: true },
     MetricId: { type: Sequelize.STRING(20), primaryKey: true },
-    StartTime: { type: Sequelize.DATE, primaryKey: true },
-    EndTime: Sequelize.DATE,
+    StartTime: { type: Sequelize.TIME, primaryKey: true },
+    EndTime: Sequelize.TIME,
     MetricValue: Sequelize.INTEGER
 },
     {

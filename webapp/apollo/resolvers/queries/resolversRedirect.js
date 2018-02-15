@@ -181,8 +181,8 @@ const updateActivityQuery = (root, { input }) => {
     return sqlSchema.UserActivities.create({
       UserId: input.userId,
       MetricId: getMetricId(activity.dataSourceId),
-      StartTime: Number(activity.startTimeMillis),
-      EndTime: Number(activity.endTimeMillis),
+      StartTime: new Date(Number(activity.startTimeMillis)).toISOString(),
+      EndTime: new Date(Number(activity.endTimeMillis)).toISOString(),
       MetricValue: activity.val
     });
   });
