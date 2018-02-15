@@ -126,8 +126,8 @@ const usersStatisticsQuery = (root, { userId }) => {
 };
 
 const initialRegisterQuery = (root, { name, email, source, sourceToken, code }) => {
-  return services.getTokens(code)
-  .then((tokens) => {
+  //return services.getTokens(code)
+  //.then((tokens) => {
     return sqlSchema.Users.create({
       Name: name,
       Email1: email,
@@ -142,11 +142,11 @@ const initialRegisterQuery = (root, { name, email, source, sourceToken, code }) 
     .catch((err) => {
       return err;
     });
-  })
-  .catch((err) => {
-    err.message = "Failed getting google refresh token: " + err.message;
-    return err;
-  });
+  //})
+  //.catch((err) => {
+  //  err.message = "Failed getting google refresh token: " + err.message;
+  //  return err;
+  //});
 };
 
 const finishRegisterQuery = (root, { userId, email2, password, yearOfBirth, phone1, phone2, city, gender, ethnicity }) => {
