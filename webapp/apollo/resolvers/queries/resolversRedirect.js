@@ -1,6 +1,17 @@
 var sqlSchema = require("../../../sqlSchemes");
 const uuidv4 = require('uuid/v4');
 const services = require('../../../services');
+const Sequelize = require('sequelize');
+
+var MetricType = {"steps": 1, "distance": 2}
+
+const getMetricId = (str) => {
+  if (str.includes("steps_count")) {
+    return MetricType.steps;
+  }
+  
+  return MetricType.distance;
+}
 
 const campaignQuery = (root, { id }) => {
   try{
@@ -164,11 +175,26 @@ const finishRegisterQuery = (root, { userId, email2, password, yearOfBirth, phon
   }
 }
 
-
 const updateActivityQuery = (root, { input }) => {
   console.log(input);
-  return "ok";
-};
+  var promises = input.userActivities.map(function (activity) {
+    return sqlSchema.UserActivities.create({
+      UserId: input.userId,
+      MetricId: getMetricId(activity.dataSourceId),
+      StartTime: Number(activity.startTimeMillis),
+      EndTime: Number(activity.endTimeMillis),
+      MetricValue: activity.val
+    });
+  });
+  return Promise.all(promises)
+    .then(function () {
+      //  return Promise.resolve(result);
+      return Promise.resolve("Done");
+    });
+
+  // Todo: after finish , in the user db -> mark as synched
+  // return "ok";
+}
 
 module.exports = {
   campaignQuery,
