@@ -134,7 +134,7 @@ const initialRegisterQuery = (root, { name, email, source, sourceToken, code }) 
       AuthSource: source,
       AuthSourceToken: sourceToken,
       UserId: uuidv4(),
-      GoogleFitToken: tokens.refresh_token
+      GoogleFitToken: 'tbd token' //tokens.refresh_token
     })
     .then((result) => {
       return { 'userId' : result.UserId} ;
