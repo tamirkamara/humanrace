@@ -190,7 +190,7 @@ const updateActivityQuery = (root, { input }) => {
   return Promise.all(promises)
     .then(function () {
       //  return Promise.resolve(result);
-      return sqlSchema.UserActivities.update({
+      return sqlSchema.Users.update({
         LastActivitySync: new Date(Date.now()).toISOString(),
       }, {
           where: {
