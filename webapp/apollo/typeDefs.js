@@ -37,13 +37,23 @@ type UserStatistics {
 type Mutation {
   initialRegister(name: String!, email: String, source: String, sourceToken: String, code: String!): InitialRegisterResult,
   finishRegister(userId: String!, email2: String, password: String!, yearOfBirth: Int, phone1: String, phone2: String, city: String, gender: String, ethnicity: String): FinishRegisterResult,
-}
+  finishCampaignParticipation(userId: String!, campaignId: Int!, startDate: String!, endDate: String): finishCampaignParticipationResult,
+  campaignParticipation(userId: String!, campaignId: Int!, startDate: String!, endDate: String): campaignParticipationResult
+} 
 
 type InitialRegisterResult {
   userId: String
 }
 
 type FinishRegisterResult {
+  message: String
+}
+
+type finishCampaignParticipationResult {
+  message: String
+}
+
+type campaignParticipationResult {
   message: String
 }
 
@@ -58,6 +68,21 @@ type UserInfo {
   city: String,
   gender: String,
   ethnicity: String
+}
+
+type UsersInCampaigns {
+  CampaignId: Int,
+  UserId: String,
+  StartDate: String,
+  EndDate: String
+}
+
+type UsersInCampaignsFullInfo {
+  CampaignId: Int,
+  UserId: String,
+  StartDate: String,
+  EndDate: String,
+  GoalMetricType: String
 }
 `;
 

@@ -1,6 +1,9 @@
 var sqlSchema = require("../../../sqlSchemes");
 const uuidv4 = require('uuid/v4');
 const services = require('../../../services');
+const Sequelize = require('sequelize');
+
+const Op = Sequelize.Op;
 
 const campaignQuery = (root, { id }) => {
   try{
@@ -164,6 +167,52 @@ const finishRegisterQuery = (root, { userId, email2, password, yearOfBirth, phon
   }
 }
 
+const finishCampaignParticipationQuery = (root, {userId, campaignId, endDate}) => {
+  try {
+    return sqlSchema.UsersInCampaigns.update({
+      EndDate: endDate
+    },{
+      where: {
+        UserId: userId,
+        CampaignId: campaignId,
+        EndDate: {
+          [Op.or]:{
+            [Op.eq]: null,
+            [Op.gt]: endDate
+          }
+        }
+      }
+    }).then(function (result) {
+      return { 'message': 'OK' };
+    })
+  }
+  catch (err) {
+    console.error('Error:' + err);
+    return err;
+  }
+}
+
+const campaignParticipationQuery = (root, {userId, campaignId, startDate, endDate}) => {
+  try {
+    sqlSchema.UsersInCampaigns.create({
+      CampaignId: campaignId,
+      UserId: userId,
+      StartDate: startDate,
+      EndDate: endDate
+    }).then((result) => {
+      return { 'message' : 'OK'} ;
+    })
+    .catch((err) => {
+      return err;
+    });
+  }
+  catch (err) {
+    console.error('Error:' + err);
+    return err;
+  }
+}
+
+
 module.exports = {
   campaignQuery,
   campaignsQuery,
@@ -172,4 +221,6 @@ module.exports = {
   usersStatisticsQuery,
   initialRegisterQuery,
   finishRegisterQuery,
+  finishCampaignParticipationQuery,
+  campaignParticipationQuery
 };
