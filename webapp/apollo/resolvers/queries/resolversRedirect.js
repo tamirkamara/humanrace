@@ -125,6 +125,9 @@ const usersStatisticsQuery = (root, { userId }) => {
  }
 };
 
+// to utilize the 'code' param which for now is disabled, uncomment (all of) the following commented out 
+// lines, this will go to google and get the refresh token using the code and save it into
+// SQL.
 const initialRegisterQuery = (root, { name, email, source, sourceToken, code }) => {
   //return services.getTokens(code)
   //.then((tokens) => {
