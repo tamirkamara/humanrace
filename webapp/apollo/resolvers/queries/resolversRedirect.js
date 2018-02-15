@@ -164,6 +164,12 @@ const finishRegisterQuery = (root, { userId, email2, password, yearOfBirth, phon
   }
 }
 
+
+const updateActivityQuery = (root, { input }) => {
+  console.log(input);
+  return "ok";
+};
+
 module.exports = {
   campaignQuery,
   campaignsQuery,
@@ -172,4 +178,5 @@ module.exports = {
   usersStatisticsQuery,
   initialRegisterQuery,
   finishRegisterQuery,
+  updateActivityQuery,
 };

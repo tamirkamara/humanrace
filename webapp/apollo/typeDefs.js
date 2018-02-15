@@ -34,9 +34,22 @@ type UserStatistics {
   TotalPerDay: Int
 }
 
+input ActivityInput {
+  dataSourceId: String,
+  startTimeMillis: String,
+  endTimeMillis: String,
+  val: Int
+}
+
+input ActivitiesInput {
+  userId: String!,
+  userActivities: [ActivityInput]
+}
+
 type Mutation {
   initialRegister(name: String!, email: String, source: String, sourceToken: String, code: String!): InitialRegisterResult,
   finishRegister(userId: String!, email2: String, password: String!, yearOfBirth: Int, phone1: String, phone2: String, city: String, gender: String, ethnicity: String): FinishRegisterResult,
+  updateActivity(input: ActivitiesInput!): String,
 }
 
 type InitialRegisterResult {
