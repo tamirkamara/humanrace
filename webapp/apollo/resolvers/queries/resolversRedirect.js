@@ -251,6 +251,9 @@ const updateActivityQuery = (root, { input }) => {
         });
     }).then(() => {
       return "done";
+    })
+    .catch((err) =>{
+      return err;
     });
 }
 
