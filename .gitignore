@@ -1,2 +1,3 @@
 webapp/node_modules/*
 webapp/package-lock.json
+PullGoogleFitDataFunction/node_modules/*
