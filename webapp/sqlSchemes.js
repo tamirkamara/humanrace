@@ -69,7 +69,7 @@ const UsersInCampaigns = sequelize.define('UsersInCampaigns', {
         timestamps: false,
     });
 
-const UsersInCampaignsFullInfo = sequelize.define('vUsersInCampaignsFullInfo', {
+const UsersInCampaignsInfo = sequelize.define('vUsersInCampaignsInfos', {
         CampaignId: { type: Sequelize.INTEGER, allowNull: false },
         UserId: { type: Sequelize.UUIDV4, allowNull: false },
         StartDate: { type: Sequelize.TIME, allowNull: false },
@@ -105,7 +105,7 @@ module.exports = {
     UserActivities,
     Campaigns,
     UsersInCampaigns,
-    UsersInCampaignsFullInfo,
+    UsersInCampaignsInfo,
     CampaignStats,
     UserStats
 }
