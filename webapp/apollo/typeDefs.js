@@ -36,7 +36,7 @@ input ActivityInput {
   dataSourceId: String,
   startTimeMillis: String,
   endTimeMillis: String,
-  val: Int
+  val: Float
 }
 
 input ActivitiesInput {

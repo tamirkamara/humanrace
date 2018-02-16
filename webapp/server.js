@@ -10,8 +10,10 @@ var sevices = require('./services');
 var sqlSchemes = require('./sqlSchemes');
 const { graphQLSchema } = require('./apollo/schema');
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
+const cors = require('cors');
 
 var app = express();
+app.use(cors());
 var serverOptions = {};
 
 const PORT = process.env.PORT || 4000;
