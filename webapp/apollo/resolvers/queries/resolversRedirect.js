@@ -204,20 +204,77 @@ const finishCampaignParticipationQuery = (root, {userId, campaignId, endDate}) =
   }
 }
 
+const finishCampaignParticipationTypeQuery = (root, {userId, goalMetricType, endDate}) => {
+  try {
+    return sqlSchema.UsersInCampaignsInfo.findAll({
+      attributes: ['CampaignId'],
+      where: {
+        UserId: userId,
+        GoalMetricType: goalMetricType,
+        EndDate: {
+          [Op.or]: {
+            [Op.eq]: null,
+            [Op.gt]: endDate
+          }
+        }
+      }
+    }).then(function (result) {
+      var campaignIds = [];
+      for(var i in result){
+        campaignIds.push(result[i].CampaignId);
+      }
+      return sqlSchema.UsersInCampaigns.update({
+        EndDate: endDate
+      },{
+        where: {
+          UserId: userId,
+          CampaignId : {
+            [Op.in]: campaignIds
+          }
+        }
+      }).then(function (result) {
+        return { 'message': 'OK' };
+      })
+    })
+  }
+  catch (err) {
+    console.error('Error:' + err);
+    return err;
+  }
+}
+
 const campaignParticipationQuery = (root, {userId, campaignId, startDate, endDate}) => {
   try {
-    sqlSchema.UsersInCampaigns.create({
-      CampaignId: campaignId,
-      UserId: userId,
-      StartDate: startDate,
-      EndDate: endDate
-    }).then((result) => {
-      return { 'message' : 'OK'} ;
-    })
-    .catch((err) => {
+    /*
+    sqlSchema.Campaigns.find({
+      attributes: ['GoalMetricType'],
+      where: {
+        Id: campaignId
+      }
+    }).then(function(typeResult) {
+      var goalMetricType = typeResult.GoalMetricType;
+      finishCampaignParticipationTypeQuery(root, {userId, goalMetricType, startDate})
+      .then(function(finishTypeResult) {
+        if(finishTypeResult.message == 'OK'){
+          */
+          sqlSchema.UsersInCampaigns.create({
+            CampaignId: campaignId,
+            UserId: userId,
+            StartDate: startDate,
+            EndDate: endDate
+          }).then((result) => {
+            return { 'message' : 'OK'} ;
+          }).catch((err) => {
+            console.error('Error:' + err);
+            return err;
+          });
+        }
+     /* })
+    }).catch((err) => {
+      console.error('Error:' + err);
       return err;
     });
-  }
+  }*/
   catch (err) {
     console.error('Error:' + err);
     return err;
