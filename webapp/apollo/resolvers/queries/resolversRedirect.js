@@ -226,15 +226,18 @@ const campaignParticipationQuery = (root, {userId, campaignId, startDate, endDat
 
 const updateActivityQuery = (root, { input }) => {
   console.log(input);
-  var promises = input.userActivities.map(function (activity) {
-    return sqlSchema.UserActivities.create({
-      UserId: input.userId,
-      MetricId: getMetricId(activity.dataSourceId),
-      StartTime: new Date(Number(activity.startTimeMillis)).toISOString(),
-      EndTime: new Date(Number(activity.endTimeMillis)).toISOString(),
-      MetricValue: activity.val
+  var promises = [];
+  if (input.userActivities!= null && input.userActivities.length > 0) {
+    promises = input.userActivities.map(function (activity) {
+      return sqlSchema.UserActivities.create({
+        UserId: input.userId,
+        MetricId: getMetricId(activity.dataSourceId),
+        StartTime: new Date(Number(activity.startTimeMillis)).toISOString(),
+        EndTime: new Date(Number(activity.endTimeMillis)).toISOString(),
+        MetricValue: activity.val
+      });
     });
-  });
+  }
 
   return Promise.all(promises)
     .then(function () {
@@ -246,10 +249,9 @@ const updateActivityQuery = (root, { input }) => {
             UserId: input.userId
           }
         });
-    }).then(()=>
-  {
-    return "done";
-  });
+    }).then(() => {
+      return "done";
+    });
 }
 
 module.exports = {
