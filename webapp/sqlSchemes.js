@@ -53,7 +53,8 @@ const Users = sequelize.define('Users', {
     Ethnicity: Sequelize.STRING(50),
     AuthSource: Sequelize.STRING(50),
     GoogleFitToken: Sequelize.STRING(2000),
-    AuthSourceToken: Sequelize.STRING(2000)
+    AuthSourceToken: Sequelize.STRING(2000),
+    LastActivitySync: Sequelize.STRING(2000)
 },
     {
         timestamps: false,
